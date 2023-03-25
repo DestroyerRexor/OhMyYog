@@ -12,6 +12,18 @@
         android:theme="@style/Theme.EvidenciaFinalApp"
         tools:targetApi="31">
         <activity
+            android:name=".ResumeDeliveryActivity"
+            android:exported="false" />
+        <activity
+            android:name=".DeliveryInformationActivity"
+            android:exported="false" />
+        <activity
+            android:name=".CartViewActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ProductViewActivity"
+            android:exported="false" />
+        <activity
             android:name=".ProductListActivity"
             android:exported="false" />
         <activity
