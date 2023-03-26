@@ -56,8 +56,8 @@
         android:backgroundTint="@color/black"
         android:fontFamily="sans-serif-black"
         android:text="Entrar"
-        android:alpha="0"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:alpha="0"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/iv_logo_text" />
