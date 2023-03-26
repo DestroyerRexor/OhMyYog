@@ -5,9 +5,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
+
+    private Button btn_enter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,14 +22,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //Hacemos el cambio de actividad, de la MainActivity a la ProductListActivity
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                startActivity(new Intent(MainActivity.this, ProductListActivity.class));
-                finish();
-            }
-        }, 3000);
+        btn_enter = (Button) findViewById(R.id.btn_enter);
 
+        btn_enter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainActivity.this, ProductListActivity.class));
+            }
+        });
     }
 }
