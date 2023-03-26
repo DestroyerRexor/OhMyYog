@@ -17,6 +17,7 @@ public class ProductViewActivity extends AppCompatActivity {
     AutoCompleteTextView autoCompleteTextView;
     ArrayAdapter<String> adapterItem;
     ImageView returnArrowImageView;
+    ImageView cartImageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +25,9 @@ public class ProductViewActivity extends AppCompatActivity {
         setContentView(R.layout.activity_product_view);
 
         returnArrowImageView = findViewById(R.id.returnArrowImageView);
+        cartImageView = findViewById(R.id.cartImageView);
+
+        cartImageView.setImageAlpha(0);
 
         returnArrowImageView.setOnClickListener(new View.OnClickListener() {
             @Override
