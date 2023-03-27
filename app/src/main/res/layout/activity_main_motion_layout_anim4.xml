@@ -9,32 +9,32 @@
     tools:context=".MainActivity">
 
     <ImageView
-        android:id="@+id/iv_background"
+        android:id="@+id/backgroundImageView"
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:layout_marginTop="128dp"
         android:layout_marginBottom="50dp"
         android:background="@drawable/bg"
-        app:layout_constraintBottom_toTopOf="@+id/iv_logo_text"
+        app:layout_constraintBottom_toTopOf="@+id/logoTextImageView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/iv_logo"
+        android:id="@+id/logoImageView"
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:layout_marginTop="128dp"
         android:layout_marginBottom="50dp"
         android:src="@drawable/ohmyyog"
-        app:layout_constraintBottom_toTopOf="@+id/iv_logo_text"
+        app:layout_constraintBottom_toTopOf="@+id/logoTextImageView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:tint="@color/white" />
 
     <ImageView
-        android:id="@+id/iv_logo_text"
+        android:id="@+id/logoTextImageView"
         android:layout_width="300dp"
         android:layout_height="100dp"
         android:layout_marginStart="50dp"
@@ -44,10 +44,10 @@
         android:alpha="1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/iv_background" />
+        app:layout_constraintTop_toBottomOf="@+id/backgroundImageView" />
 
     <Button
-        android:id="@+id/btn_enter"
+        android:id="@+id/enterButton"
         android:layout_width="150dp"
         android:layout_height="75dp"
         android:layout_marginStart="50dp"
@@ -60,7 +60,7 @@
         android:alpha="1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/iv_logo_text" />
+        app:layout_constraintTop_toBottomOf="@+id/logoTextImageView" />
 
 
 </androidx.constraintlayout.motion.widget.MotionLayout>
