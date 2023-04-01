@@ -4,9 +4,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.util.DisplayMetrics;
 import android.widget.GridView;
-import android.widget.ListView;
 
 import java.util.ArrayList;
 
@@ -26,9 +27,9 @@ public class ProductListActivity extends AppCompatActivity {
         int columnWidth = screenWidth / 2;
         gridView.setColumnWidth(columnWidth);
 
-
         setupData();
         setUpList();
+        setUpOnClickListener();
     }
 
 
@@ -50,12 +51,10 @@ public class ProductListActivity extends AppCompatActivity {
         listView.setAdapter(card);
     }
 
-    /*
     private  void setUpOnClickListener() {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l)
-            {
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 Product selectShape = (Product) (listView.getItemAtPosition(position));
                 Intent showDetail = new Intent(getApplicationContext(), ProductViewActivity.class);
                 showDetail.putExtra("id",selectShape.getId());
@@ -63,5 +62,4 @@ public class ProductListActivity extends AppCompatActivity {
             }
         });
     }
-    */
 }
