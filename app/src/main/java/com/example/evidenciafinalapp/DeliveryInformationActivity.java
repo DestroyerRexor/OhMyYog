@@ -6,6 +6,9 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TimePicker;
@@ -17,6 +20,11 @@ public class DeliveryInformationActivity extends AppCompatActivity {
 
     // Validar el horario según el día de la semana
     int minHour, minMinute, maxHour, maxMinute;
+
+    AutoCompleteTextView autoCompleteTextView;
+    ArrayAdapter<String> adapterItem;
+
+    String[] item = {"Av. Fundadores (Del Paseo)","Plaza OMNIA (El Uro)","Plaza Fórum Leones (Cumbres)"};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,6 +32,20 @@ public class DeliveryInformationActivity extends AppCompatActivity {
 
         EditText datePickerEditText = findViewById(R.id.date_picker);
         EditText hourPickerEditText = findViewById(R.id.hour_picker);
+
+
+        autoCompleteTextView = findViewById(R.id.autoCompleteTextView);
+        adapterItem = new ArrayAdapter<String>(this, R.layout.list_item, item);
+
+        autoCompleteTextView.setAdapter(adapterItem);
+        autoCompleteTextView.setText(item[0].toString(), false);
+
+        autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                String item = adapterView.getItemAtPosition(i).toString();
+            }
+        });
 
 
         DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {

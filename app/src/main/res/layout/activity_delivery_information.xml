@@ -184,6 +184,7 @@
                     android:textSize="16dp" />
 
                 <androidx.coordinatorlayout.widget.CoordinatorLayout
+                    android:id="@+id/iPlaceDelivery"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     tools:context=".DeliveryInformationActivity"
@@ -195,8 +196,7 @@
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:background="@drawable/bg_input"
-                        android:layout_marginEnd="20dp">
+                        android:background="@drawable/bg_input">
 
                         <AutoCompleteTextView
                             android:id="@+id/autoCompleteTextView"
@@ -209,6 +209,18 @@
 
 
                 </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+                <Button
+                    android:id="@+id/endDeliveryButton"
+                    android:layout_below="@+id/iPlaceDelivery"
+                    android:layout_marginTop="16dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="65dp"
+                    android:layout_alignParentBottom="true"
+                    android:backgroundTint="@color/black"
+                    android:fontFamily="sans-serif-black"
+                    android:text="Terminar pedido"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large"/>
 
 
             </RelativeLayout>
