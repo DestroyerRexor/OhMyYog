@@ -3,18 +3,30 @@ package com.example.evidenciafinalapp;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.util.DisplayMetrics;
 import android.widget.GridView;
+import android.widget.Toast;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
+import java.net.URL;
 import java.util.ArrayList;
 
 public class ProductListActivity extends AppCompatActivity {
 
     public static ArrayList<Product> productList = new ArrayList<Product>();
     private GridView listView;
+
+    private static final String API_URL = "https://test-project-fire-ca86c-default-rtdb.firebaseio.com/products.json";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,5 +73,42 @@ public class ProductListActivity extends AppCompatActivity {
                 startActivity(showDetail);
             }
         });
+    }
+
+    private class FetchDataTask extends AsyncTask<Void, Void, String> {
+
+        @Override
+        protected String doInBackground(Void... voids) {
+            try {
+                URL url = new URL(API_URL);
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                connection.setRequestMethod("GET");
+
+                InputStream inputStream = connection.getInputStream();
+                BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+                StringBuilder stringBuilder = new StringBuilder();
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    stringBuilder.append(line);
+                }
+                String response = stringBuilder.toString();
+
+                connection.disconnect();
+
+                return response;
+            } catch (IOException e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String response) {
+            if (response != null) {
+                // Procesar la respuesta aquí
+            } else {
+                Toast.makeText(ProductListActivity.this, "Error al obtener datos de la API", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 }
