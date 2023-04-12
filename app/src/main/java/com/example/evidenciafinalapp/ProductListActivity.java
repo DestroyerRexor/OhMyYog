@@ -5,21 +5,26 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.util.DisplayMetrics;
 import android.widget.GridView;
-import android.widget.Toast;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
-import java.net.URL;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.Queue;
 
 public class ProductListActivity extends AppCompatActivity {
 
@@ -39,12 +44,14 @@ public class ProductListActivity extends AppCompatActivity {
         int columnWidth = screenWidth / 2;
         gridView.setColumnWidth(columnWidth);
 
-        setupData();
+        // setupData();
+        fetchData();
         setUpList();
         setUpOnClickListener();
     }
 
 
+    /*
     private void setupData() {
         Product p1 = new Product("01", "Helados", "2 Sabores, Taro & Natural Stevia integrados", "159", "Taro & Natural Stevia", R.drawable.icecream);
         Product p2 = new Product("02", "Helados", "Helado KETO & Vegano sabor Vinilla, cero Azúcar (Endulzado 100% con Monk Fruit) Vegana (Base leche de Almendra)", "159", "Vainilla KETO", R.drawable.icecream);
@@ -55,6 +62,47 @@ public class ProductListActivity extends AppCompatActivity {
         productList.add(p2);
         productList.add(p3);
         productList.add(p4);
+    }
+    */
+
+    private void fetchData() {
+        RequestQueue queue = Volley.newRequestQueue(this);
+
+        StringRequest stringRequest = new StringRequest(
+            Request.Method.GET,
+            API_URL,
+            new Response.Listener<String>() {
+
+                @Override
+                public void onResponse(String response) {
+                    try {
+                        JSONArray array = new JSONArray(response);
+                        for (int i = 0; i < array.length(); i++) {
+                            JSONObject singleObject = array.getJSONObject(i);
+                            Product product = new Product(
+                                    singleObject.getString("id"),
+                                    singleObject.getString("category"),
+                                    singleObject.getString("description"),
+                                    singleObject.getString("price"),
+                                    singleObject.getString("productName"),
+                                    R.drawable.icecream
+                            );
+
+                            System.out.println(product.toString());
+                            productList.add(product);
+                        }
+                    } catch (Exception e) {
+
+                    }
+                }
+            },
+            new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Log.e("api", "onErrorResponse "+error.getLocalizedMessage());
+                }
+            }
+        );
     }
 
     private void setUpList() {
@@ -73,42 +121,5 @@ public class ProductListActivity extends AppCompatActivity {
                 startActivity(showDetail);
             }
         });
-    }
-
-    private class FetchDataTask extends AsyncTask<Void, Void, String> {
-
-        @Override
-        protected String doInBackground(Void... voids) {
-            try {
-                URL url = new URL(API_URL);
-                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                connection.setRequestMethod("GET");
-
-                InputStream inputStream = connection.getInputStream();
-                BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-                StringBuilder stringBuilder = new StringBuilder();
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    stringBuilder.append(line);
-                }
-                String response = stringBuilder.toString();
-
-                connection.disconnect();
-
-                return response;
-            } catch (IOException e) {
-                e.printStackTrace();
-                return null;
-            }
-        }
-
-        @Override
-        protected void onPostExecute(String response) {
-            if (response != null) {
-                // Procesar la respuesta aquí
-            } else {
-                Toast.makeText(ProductListActivity.this, "Error al obtener datos de la API", Toast.LENGTH_SHORT).show();
-            }
-        }
     }
 }
