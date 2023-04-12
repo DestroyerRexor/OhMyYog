@@ -22,6 +22,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import android.Manifest;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -36,10 +37,15 @@ public class ProductListActivity extends AppCompatActivity {
     private GridView gridView;
     private static final String API_URL = "https://test-project-fire-ca86c-default-rtdb.firebaseio.com/products.json";
 
+    private ImageView returnArrowImageView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_list);
+
+        returnArrowImageView = findViewById(R.id.returnArrowImageView);
+        returnArrowImageView.setImageAlpha(0);
 
         gridView = findViewById(R.id.grid);
         DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
@@ -110,6 +116,7 @@ public class ProductListActivity extends AppCompatActivity {
                 Intent showDetail = new Intent(getApplicationContext(), ProductViewActivity.class);
                 showDetail.putExtra("id",selectedProduct.getId());
                 startActivity(showDetail);
+                System.out.println(selectedProduct.getId());
             }
         });
     }
