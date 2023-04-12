@@ -96,47 +96,6 @@ public class ProductListActivity extends AppCompatActivity {
         }
     }
 
-    /*
-    private void fetchData() {
-        RequestQueue queue = Volley.newRequestQueue(this);
-        StringRequest stringRequest = new StringRequest(
-            Request.Method.GET,
-            API_URL,
-            new Response.Listener<String>() {
-                @Override
-                public void onResponse(String response) {
-                    try {
-                        JSONArray array = new JSONArray(response);
-                        for (int i = 0; i < array.length(); i++) {
-                            JSONObject singleObject = array.getJSONObject(i);
-                            Product product = new Product(
-                                    singleObject.getString("id"),
-                                    singleObject.getString("category"),
-                                    singleObject.getString("description"),
-                                    singleObject.getInt("price"),
-                                    singleObject.getString("product_name"),
-                                    R.drawable.icecream
-                            );
-                            productList.add(product);
-                        }
-
-                    } catch (Exception e) {
-                        System.out.println("Ocurrio un error!!! "+e);
-                    }
-                }
-            },
-            new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    Log.e("api", "onErrorResponse "+error.getLocalizedMessage());
-                    Toast.makeText(ProductListActivity.this, "Error: " + error.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-                }
-            }
-        );
-        queue.add(stringRequest);
-    }
-     */
-
     private void setUpList() {
         gridView = (GridView) findViewById(R.id.grid);
         ProductCard card = new ProductCard(getApplicationContext(), 0, productList);
