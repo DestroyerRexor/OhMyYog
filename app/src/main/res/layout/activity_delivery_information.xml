@@ -13,15 +13,18 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:paddingBottom="16dp"
         android:layout_below="@id/toolbar">
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:paddingBottom="16dp">
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:paddingBottom="32dp"
                 android:layout_margin="20dp">
 
                 <TextView
@@ -183,6 +186,7 @@
                     android:textColor="@color/black"
                     android:textSize="16dp" />
 
+                <!--
                 <androidx.coordinatorlayout.widget.CoordinatorLayout
                     android:id="@+id/iPlaceDelivery"
                     android:layout_width="match_parent"
@@ -210,10 +214,38 @@
 
                 </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
+                -->
+
+                <androidx.coordinatorlayout.widget.CoordinatorLayout
+                    android:id="@+id/iPlaceDelivery"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:context=".ProductViewActivity"
+                    android:layout_below="@id/placeDelivery">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/textInputLayout"
+                        style="@style/MyTextInputLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <AutoCompleteTextView
+                            android:id="@+id/autoCompleteTextView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="none"/>
+
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+
+                </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
                 <Button
                     android:id="@+id/endDeliveryButton"
                     android:layout_below="@+id/iPlaceDelivery"
                     android:layout_marginTop="16dp"
+                    android:layout_marginBottom="16dp"
                     android:layout_width="match_parent"
                     android:layout_height="65dp"
                     android:layout_alignParentBottom="true"
