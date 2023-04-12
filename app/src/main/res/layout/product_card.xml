@@ -20,6 +20,7 @@ app:cardPreventCornerOverlap="true">
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:src="@drawable/icecream"
+        android:background="@drawable/rounded_top_corners"
         android:adjustViewBounds="true"
         android:scaleType="centerCrop"/>
 
@@ -36,8 +37,9 @@ app:cardPreventCornerOverlap="true">
             android:text="Product Name"
             android:textSize="18sp"
             android:textStyle="bold"
-            android:maxEms="16"
+            android:maxLines="1"
             android:ellipsize="end"
+            android:maxWidth="150dp"
             android:textAppearance="?attr/textAppearanceHeadline6"/>
 
         <TextView
