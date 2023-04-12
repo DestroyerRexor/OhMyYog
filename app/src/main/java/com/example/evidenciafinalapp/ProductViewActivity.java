@@ -19,6 +19,8 @@ public class ProductViewActivity extends AppCompatActivity {
     ImageView returnArrowImageView;
     ImageView cartImageView;
 
+    Product selectProduct;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,5 +51,26 @@ public class ProductViewActivity extends AppCompatActivity {
             }
         });
 
+        getSelectedProduct();
+        setValues();
+
+    }
+
+    private void getSelectedProduct() {
+        Intent previousIntent = getIntent();
+        String parsedStringID = previousIntent.getStringExtra("id");
+        selectProduct = ProductListActivity.productList.get(Integer.valueOf(parsedStringID));
+    }
+
+    private void setValues() {
+        // TODO: Hacer referencia al objeto selectProduct para obtener los valores y asignarlos.
+
+        /*
+        *   TextView tv = (TextView) findViewById(R.id.shapeName);
+            ImageView iv = (ImageView) findViewById(R.id.shapeImage);
+            tv.setText(selectedShape.getName());
+            iv.setImageResource(selectedShape.getImage());
+        *
+        * */
     }
 }
