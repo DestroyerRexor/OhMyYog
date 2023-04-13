@@ -26,27 +26,40 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <ImageView
-                    android:id="@+id/productImageView"
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/imageViewCardView"
                     android:layout_width="wrap_content"
-                    android:layout_height="250dp"
-                    android:src="@drawable/ohmyyog"
+                    android:layout_height="275dp"
                     android:layout_marginStart="20dp"
                     android:layout_marginEnd="20dp"
-                    android:layout_marginTop="20dp"
-                    />
+                    app:cardCornerRadius="10dp"
+                    android:elevation="12dp"
+                    android:layout_centerHorizontal="true"
+                    android:innerRadius="0dp"
+                    android:shape="ring"
+                    android:thicknessRatio="1.9">
+
+                    <ImageView
+                        android:id="@+id/productImageView"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/ice"
+                        android:scaleType="centerCrop"/>
+
+
+                </androidx.cardview.widget.CardView>
 
                 <TextView
                     android:id="@+id/productNameTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/productImageView"
+                    android:layout_below="@id/imageViewCardView"
                     android:layout_marginTop="20dp"
                     android:layout_marginStart="20dp"
                     android:layout_marginEnd="20dp"
                     android:text="Product large name"
                     android:textColor="@color/black"
-                    android:textSize="30sp"
+                    android:textSize="25sp"
                     android:textStyle="bold"
                     />
 
@@ -108,13 +121,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/productQuantityTextView"
-                    android:layout_marginTop="30dp"
+                    android:layout_marginTop="25dp"
                     android:layout_marginStart="20dp"
                     android:layout_marginEnd="20dp"
                     android:textStyle="bold"
                     android:text="@string/description"
                     android:textColor="@color/black"
-                    android:textSize="25sp"
+                    android:textSize="20sp"
                     />
 
                 <TextView
@@ -128,7 +141,7 @@
                     android:layout_marginEnd="20dp"
                     android:text="@string/lorem_Ipsum"
                     android:textColor="@color/black"
-                    android:textSize="20sp"
+                    android:textSize="15sp"
                     />
             </RelativeLayout>
 
@@ -139,7 +152,8 @@
             android:layout_width="match_parent"
             android:layout_height="65dp"
             android:layout_marginStart="20dp"
-            android:layout_marginBottom="20dp"
+            android:layout_marginBottom="15dp"
+            android:layout_marginTop="15dp"
             android:layout_alignParentBottom="true"
             android:layout_marginEnd="20dp"
             android:backgroundTint="@color/black"

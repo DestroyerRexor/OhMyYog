@@ -8,7 +8,9 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class ProductViewActivity extends AppCompatActivity {
@@ -18,6 +20,10 @@ public class ProductViewActivity extends AppCompatActivity {
     ArrayAdapter<String> adapterItem;
     ImageView returnArrowImageView;
     ImageView cartImageView;
+    Button  addToCartButton;
+    Product selectProduct;
+
+    private static String quantity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,9 +38,11 @@ public class ProductViewActivity extends AppCompatActivity {
         returnArrowImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(ProductViewActivity.this, ProductListActivity.class));
+                onBackPressed();
             }
         });
+
+        addToCartButton = findViewById(R.id.addToCartButton);
 
         autoCompleteTextView = findViewById(R.id.autoCompleteTextView);
         adapterItem = new ArrayAdapter<String>(this, R.layout.list_item, item);
@@ -49,5 +57,41 @@ public class ProductViewActivity extends AppCompatActivity {
             }
         });
 
+        getSelectedProduct();
+        setValues();
+
+        addToCartButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent showCart = new Intent(getApplicationContext(), CartViewActivity.class);
+                showCart.putExtra("id", selectProduct.getId());
+                quantity = String.valueOf(autoCompleteTextView.getText());
+                CartViewActivity.getSelectedProduct(selectProduct);
+                System.out.println("Nombre: " + selectProduct.getProductName() + " Precio: $" + selectProduct.getPrice() + " Cantidad:" + quantity);
+                startActivity(showCart);
+            }
+        });
+    }
+
+    private void getSelectedProduct() {
+        Intent previousIntent = getIntent();
+        String parsedStringID = previousIntent.getStringExtra("id");
+        selectProduct = ProductListActivity.productList.get(Integer.parseInt(parsedStringID));
+    }
+
+    private void setValues() {
+        ImageView productImageView = findViewById(R.id.productImageView);
+        TextView productNameTextView = findViewById(R.id.productNameTextView);
+        TextView productPriceTextView = findViewById(R.id.productPriceTextView);
+        TextView productDescriptionSubtitleTextView = findViewById(R.id.productDescriptionSubtitleTextView);
+
+        productImageView.setImageResource(R.drawable.icecream);
+        productNameTextView.setText(selectProduct.getProductName());
+        productPriceTextView.setText("$" + selectProduct.getPrice());
+        productDescriptionSubtitleTextView.setText(selectProduct.getDescription());
+    }
+
+    public static String getQuantity(){
+        return quantity;
     }
 }

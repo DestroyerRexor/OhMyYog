@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
         btn_enter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this, ProductViewActivity.class));
+                startActivity(new Intent(MainActivity.this, ProductListActivity.class));
             }
         });
     }
