@@ -7,9 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+import com.bumptech.glide.Glide;
 
 import java.util.List;
 
@@ -18,6 +16,12 @@ public class ProductCard extends ArrayAdapter<Product> {
     public ProductCard(Context context, int resource, List<Product> productList) {
         super(context, resource, productList);
     }
+
+    private String clearURLImageAPI(String url) {
+        String cleanURL = "";
+        return  cleanURL = url.replace("\\/", "/");
+    }
+
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -32,7 +36,8 @@ public class ProductCard extends ArrayAdapter<Product> {
 
         productName.setText(product.getProductName());
         price.setText("$ " + product.getPrice());
-        productImage.setImageResource(product.getURLImage());
+        // productImage.setImageResource(product.getURLImage());
+        Glide.with(getContext()).load(clearURLImageAPI(product.getURLImage())).override(320, 320).into(productImage);
 
         return convertView;
     }
