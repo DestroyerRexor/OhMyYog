@@ -79,7 +79,7 @@ public class ProductListActivity extends AppCompatActivity {
                                             singleObject.getString("description"),
                                             singleObject.getInt("price"),
                                             singleObject.getString("product_name"),
-                                            R.drawable.icecream
+                                            singleObject.getString("image")
                                     );
                                     productList.add(product);
                                 }

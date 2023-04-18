@@ -6,9 +6,9 @@ public class Product {
     private String description;
     private int price;
     private String productName;
-    private int URLImage;
+    private String URLImage;
 
-    public Product(String id, String category, String description, int price, String productName, int URLImage) {
+    public Product(String id, String category, String description, int price, String productName, String URLImage) {
         this.id = id;
         this.category = category;
         this.description = description;
@@ -57,11 +57,11 @@ public class Product {
         this.productName = productName;
     }
 
-    public int getURLImage() {
+    public String getURLImage() {
         return URLImage;
     }
 
-    public void setURLImage(int URLImage) {
+    public void setURLImage(String URLImage) {
         this.URLImage = URLImage;
     }
 }
