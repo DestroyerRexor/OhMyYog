@@ -36,7 +36,6 @@ public class ProductCard extends ArrayAdapter<Product> {
 
         productName.setText(product.getProductName());
         price.setText("$ " + product.getPrice());
-        // productImage.setImageResource(product.getURLImage());
         Glide.with(getContext()).load(clearURLImageAPI(product.getURLImage())).override(320, 320).into(productImage);
 
         return convertView;
