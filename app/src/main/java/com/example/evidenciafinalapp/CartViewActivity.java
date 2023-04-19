@@ -82,8 +82,16 @@ public class CartViewActivity extends AppCompatActivity {
     }
 
     private void deleteItem(int position) {
+        final TextView priceView = (TextView) findViewById(R.id.totalPrice);
+
         cartItems.remove(position);
         cartAdapter.notifyItemRemoved(position);
+        total = 0;
+        for (CartItem item : cartItems) {
+            total += (item.quantity * item.price);
+        }
+
+        priceView.setText("$" + String.valueOf(total));
     }
 
     public static void getSelectedProduct(Product selectProduct) {
