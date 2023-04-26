@@ -1,12 +1,8 @@
 package com.example.evidenciafinalapp;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -21,15 +17,14 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import android.Manifest;
 import android.widget.ImageView;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
 public class ProductListActivity extends AppCompatActivity {
 
@@ -57,6 +52,7 @@ public class ProductListActivity extends AppCompatActivity {
 
         new FetchDataTask().execute();
         setUpOnClickListener();
+        initSearchProducts();
     }
 
     private class FetchDataTask extends AsyncTask<Void, Void, Void> {
@@ -117,6 +113,39 @@ public class ProductListActivity extends AppCompatActivity {
                 showDetail.putExtra("id",selectedProduct.getId());
                 startActivity(showDetail);
                 System.out.println(selectedProduct.getId());
+            }
+        });
+    }
+
+    private void initSearchProducts() {
+        SearchView searchView = (SearchView) findViewById(R.id.listSearchView);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                ArrayList<Product> filteredProducts = new ArrayList<Product>();
+
+                System.out.println("Lista de productos: "+productList);
+
+                for (Product product: productList) {
+                    if(product.getProductName().toLowerCase().contains(s.toLowerCase())) {
+                        filteredProducts.add(product);
+                    }
+                }
+
+                System.out.println("Productos filtrados: "+filteredProducts);
+
+                ProductCard card = new ProductCard(
+                    getApplicationContext(), 0, filteredProducts
+                );
+
+                gridView.setAdapter(card);
+
+                return false;
             }
         });
     }
