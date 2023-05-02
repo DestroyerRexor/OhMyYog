@@ -11,7 +11,8 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -110,7 +111,7 @@ public class ProductViewActivity extends AppCompatActivity {
         TextView productPriceTextView = findViewById(R.id.productPriceTextView);
         TextView productDescriptionSubtitleTextView = findViewById(R.id.productDescriptionSubtitleTextView);
 
-        productImageView.setImageResource(R.drawable.icecream);
+        Glide.with(getApplicationContext()).load(ProductCard.clearURLImageAPI(selectProduct.getURLImage())).override(320, 320).into(productImageView);
         productNameTextView.setText(selectProduct.getProductName());
         productPriceTextView.setText("$" + selectProduct.getPrice());
         productDescriptionSubtitleTextView.setText(selectProduct.getDescription());

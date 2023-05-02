@@ -17,7 +17,7 @@ public class ProductCard extends ArrayAdapter<Product> {
         super(context, resource, productList);
     }
 
-    private String clearURLImageAPI(String url) {
+    public static String clearURLImageAPI(String url) {
         String cleanURL = "";
         return  cleanURL = url.replace("\\/", "/");
     }
