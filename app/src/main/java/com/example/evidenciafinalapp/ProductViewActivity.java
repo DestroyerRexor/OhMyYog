@@ -13,6 +13,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 public class ProductViewActivity extends AppCompatActivity {
 
     String[] item = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"};
@@ -67,7 +71,28 @@ public class ProductViewActivity extends AppCompatActivity {
                 showCart.putExtra("id", selectProduct.getId());
                 quantity = String.valueOf(autoCompleteTextView.getText());
                 CartViewActivity.getSelectedProduct(selectProduct);
-                System.out.println("Nombre: " + selectProduct.getProductName() + " Precio: $" + selectProduct.getPrice() + " Cantidad:" + quantity);
+
+                List<CartViewActivity.CartItem> cartItems = ShoppingCartSingleton.getInstance().getArray();
+
+
+                CartViewActivity.CartItem existingItem = null;
+
+                for (CartViewActivity.CartItem item : cartItems) {
+                    if (item.getName().equals(selectProduct.getProductName())) {
+                        existingItem = item;
+                        break;
+                    }
+                }
+
+                if (existingItem != null) {
+                    existingItem.setQuantity(existingItem.getQuantity() + Integer.parseInt(quantity));
+                } else {
+                    CartViewActivity.CartItem newItem = new CartViewActivity.CartItem(selectProduct.getProductName(), selectProduct.getPrice(), Integer.parseInt(quantity));
+                    ShoppingCartSingleton.getInstance().addValue(newItem);
+                }
+
+                System.out.println(ShoppingCartSingleton.getInstance().getArray());
+
                 startActivity(showCart);
             }
         });
