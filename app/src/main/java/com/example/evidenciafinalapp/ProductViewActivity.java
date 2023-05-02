@@ -88,7 +88,7 @@ public class ProductViewActivity extends AppCompatActivity {
                 if (existingItem != null) {
                     existingItem.setQuantity(existingItem.getQuantity() + Integer.parseInt(quantity));
                 } else {
-                    CartViewActivity.CartItem newItem = new CartViewActivity.CartItem(selectProduct.getProductName(), selectProduct.getPrice(), Integer.parseInt(quantity));
+                    CartViewActivity.CartItem newItem = new CartViewActivity.CartItem(selectProduct.getProductName(), selectProduct.getPrice(), Integer.parseInt(quantity), selectProduct.getURLImage());
                     ShoppingCartSingleton.getInstance().addValue(newItem);
                 }
 

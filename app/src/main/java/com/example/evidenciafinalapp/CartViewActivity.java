@@ -11,8 +11,13 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class CartViewActivity extends AppCompatActivity {
 
@@ -73,6 +78,14 @@ public class CartViewActivity extends AppCompatActivity {
         finishOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                FirebaseDatabase database = FirebaseDatabase.getInstance();
+                DatabaseReference myRef = database.getReference();
+                DatabaseReference ordersRef = myRef.child("orders");
+
+                Map<String, List<CartItem>> order = new HashMap<>();
+                order.put(myRef.push().getKey(), cartItems);
+                ordersRef.setValue(order);
+
                 Intent resumeDelivery = new Intent(getApplicationContext(), ResumeDeliveryActivity.class);
                 startActivity(resumeDelivery);
             }
@@ -102,11 +115,13 @@ public class CartViewActivity extends AppCompatActivity {
         private String name;
         private double price;
         private int quantity;
+        private String image;
 
-        public CartItem(String name, double price, int quantity) {
+        public CartItem(String name, double price, int quantity, String image) {
             this.name = name;
             this.price = price;
             this.quantity = quantity;
+            this.image = image;
         }
 
         public String getName() {
@@ -132,5 +147,7 @@ public class CartViewActivity extends AppCompatActivity {
         public void setQuantity(int quantity) {
             this.quantity = quantity;
         }
+        public String getImage() { return image; }
+        public void setImage(String image) { this.image = image;}
     }
 }
