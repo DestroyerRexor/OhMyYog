@@ -11,7 +11,12 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import com.bumptech.glide.Glide;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 public class ProductViewActivity extends AppCompatActivity {
 
@@ -67,7 +72,28 @@ public class ProductViewActivity extends AppCompatActivity {
                 showCart.putExtra("id", selectProduct.getId());
                 quantity = String.valueOf(autoCompleteTextView.getText());
                 CartViewActivity.getSelectedProduct(selectProduct);
-                System.out.println("Nombre: " + selectProduct.getProductName() + " Precio: $" + selectProduct.getPrice() + " Cantidad:" + quantity);
+
+                List<CartViewActivity.CartItem> cartItems = ShoppingCartSingleton.getInstance().getArray();
+
+
+                CartViewActivity.CartItem existingItem = null;
+
+                for (CartViewActivity.CartItem item : cartItems) {
+                    if (item.getName().equals(selectProduct.getProductName())) {
+                        existingItem = item;
+                        break;
+                    }
+                }
+
+                if (existingItem != null) {
+                    existingItem.setQuantity(existingItem.getQuantity() + Integer.parseInt(quantity));
+                } else {
+                    CartViewActivity.CartItem newItem = new CartViewActivity.CartItem(selectProduct.getProductName(), selectProduct.getPrice(), Integer.parseInt(quantity), selectProduct.getURLImage());
+                    ShoppingCartSingleton.getInstance().addValue(newItem);
+                }
+
+                System.out.println(ShoppingCartSingleton.getInstance().getArray());
+
                 startActivity(showCart);
             }
         });
@@ -85,7 +111,7 @@ public class ProductViewActivity extends AppCompatActivity {
         TextView productPriceTextView = findViewById(R.id.productPriceTextView);
         TextView productDescriptionSubtitleTextView = findViewById(R.id.productDescriptionSubtitleTextView);
 
-        productImageView.setImageResource(R.drawable.icecream);
+        Glide.with(getApplicationContext()).load(ProductCard.clearURLImageAPI(selectProduct.getURLImage())).override(320, 320).into(productImageView);
         productNameTextView.setText(selectProduct.getProductName());
         productPriceTextView.setText("$" + selectProduct.getPrice());
         productDescriptionSubtitleTextView.setText(selectProduct.getDescription());
