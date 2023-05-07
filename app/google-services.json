@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "390309936482",
+    "firebase_url": "https://test-project-fire-ca86c-default-rtdb.firebaseio.com",
+    "project_id": "test-project-fire-ca86c",
+    "storage_bucket": "test-project-fire-ca86c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:390309936482:android:07f3433fb28802b1d9003b",
+        "android_client_info": {
+          "package_name": "com.example.evidenciafinalapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "390309936482-eu4cch59cuiroqnpdrmk4lj27dha9dhr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDQpHhXB18qLj6qXvTTr1aEyxqBfTlA_9U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "390309936482-eu4cch59cuiroqnpdrmk4lj27dha9dhr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

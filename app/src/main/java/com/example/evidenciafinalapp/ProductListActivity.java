@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.util.DisplayMetrics;
+import android.widget.Button;
 import android.widget.GridView;
 
 import com.android.volley.Request;
@@ -33,6 +34,7 @@ public class ProductListActivity extends AppCompatActivity {
     private static final String API_URL = "https://test-project-fire-ca86c-default-rtdb.firebaseio.com/products.json";
 
     private ImageView returnArrowImageView;
+    private String selectedFilter = "Helados";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +55,10 @@ public class ProductListActivity extends AppCompatActivity {
         new FetchDataTask().execute();
         setUpOnClickListener();
         initSearchProducts();
+
+        onFilterIceCream();
+        onFilterDrinks();
+        onFilterLiters();
     }
 
     private class FetchDataTask extends AsyncTask<Void, Void, Void> {
@@ -129,15 +135,11 @@ public class ProductListActivity extends AppCompatActivity {
             public boolean onQueryTextChange(String s) {
                 ArrayList<Product> filteredProducts = new ArrayList<Product>();
 
-                System.out.println("Lista de productos: "+productList);
-
                 for (Product product: productList) {
                     if(product.getProductName().toLowerCase().contains(s.toLowerCase())) {
                         filteredProducts.add(product);
                     }
                 }
-
-                System.out.println("Productos filtrados: "+filteredProducts);
 
                 ProductCard card = new ProductCard(
                     getApplicationContext(), 0, filteredProducts
@@ -149,4 +151,47 @@ public class ProductListActivity extends AppCompatActivity {
             }
         });
     }
+
+    private void filterList(String status) {
+        selectedFilter = status;
+
+        ArrayList<Product> filteredProducts = new ArrayList<Product>();
+
+        for (Product product: productList) {
+            if(product.getCategory().contains(status)) {
+                filteredProducts.add(product);
+            }
+        }
+
+        ProductCard card = new ProductCard(
+                getApplicationContext(), 0, filteredProducts
+        );
+
+        gridView.setAdapter(card);
+    }
+
+    private void onFilterIceCream() {
+        Button filterIceCream = findViewById(R.id.filterIceCream);
+        setOnClickListener(filterIceCream, "Helados");
+    }
+
+    private void onFilterDrinks() {
+        Button filterDrinks = findViewById(R.id.filterDrinks);
+        setOnClickListener(filterDrinks, "Drinks");
+    }
+
+    private void onFilterLiters() {
+        Button filterLiters = findViewById(R.id.filterLiters);
+        setOnClickListener(filterLiters, "Liters");
+    }
+
+    private void setOnClickListener(Button button, String filter) {
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                filterList(filter);
+            }
+        });
+    }
+
 }

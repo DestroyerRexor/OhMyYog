@@ -14,48 +14,53 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/toolbar">
-
         <LinearLayout
             android:id="@+id/buttonsLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
             android:orientation="horizontal">
             <Button
-                android:layout_width="100dp"
-                android:layout_height="65dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginBottom="15dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginEnd="20dp"
-                android:backgroundTint="@color/black"
-                android:fontFamily="sans-serif-black"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large"/>
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:id="@+id/filterIceCream"
+                android:onClick="onFilterIceCream"
+                android:text="Helados"
+                style="@style/FilterButtonStyle"
+                android:background="@android:color/transparent"
+                />
             <Button
-                android:layout_width="100dp"
-                android:layout_height="65dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginBottom="15dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginEnd="20dp"
-                android:backgroundTint="@color/black"
-                android:fontFamily="sans-serif-black"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large"/>
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:id="@+id/filterLiters"
+                android:onClick="onFilterLiters"
+                android:text="Litros"
+                style="@style/FilterButtonStyle"
+                android:background="@android:color/transparent"/>
             <Button
-                android:layout_width="100dp"
-                android:layout_height="65dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginBottom="15dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginEnd="20dp"
-                android:backgroundTint="@color/black"
-                android:fontFamily="sans-serif-black"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large"/>
-
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:id="@+id/filterDrinks"
+                android:onClick="onFiltersDrinks"
+                android:text="Drinks"
+                style="@style/FilterButtonStyle"
+                android:background="@android:color/transparent"/>
         </LinearLayout>
+
+        <SearchView
+            android:id="@+id/listSearchView"
+            android:layout_marginTop="16dp"
+            android:layout_below="@+id/buttonsLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        </SearchView>
 
         <GridView
             android:id="@+id/grid"
-            android:layout_below="@id/buttonsLayout"
+            android:layout_below="@id/listSearchView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:numColumns="2"
