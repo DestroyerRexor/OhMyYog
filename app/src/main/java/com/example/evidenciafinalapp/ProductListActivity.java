@@ -36,6 +36,8 @@ public class ProductListActivity extends AppCompatActivity {
     private ImageView returnArrowImageView;
     private String selectedFilter = "Helados";
 
+    private ImageView cartImageView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,6 +45,13 @@ public class ProductListActivity extends AppCompatActivity {
 
         returnArrowImageView = findViewById(R.id.returnArrowImageView);
         returnArrowImageView.setImageAlpha(0);
+        cartImageView = findViewById(R.id.cartImageView);
+        cartImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(ProductListActivity.this, CartViewActivity.class));
+            }
+        });
 
         gridView = findViewById(R.id.grid);
         DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
@@ -59,6 +68,8 @@ public class ProductListActivity extends AppCompatActivity {
         onFilterIceCream();
         onFilterDrinks();
         onFilterLiters();
+
+
     }
 
     private class FetchDataTask extends AsyncTask<Void, Void, Void> {
