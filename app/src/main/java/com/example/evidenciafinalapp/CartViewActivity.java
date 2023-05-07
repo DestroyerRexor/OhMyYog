@@ -78,6 +78,7 @@ public class CartViewActivity extends AppCompatActivity {
         finishOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                /*
                 FirebaseDatabase database = FirebaseDatabase.getInstance();
                 DatabaseReference myRef = database.getReference();
                 DatabaseReference ordersRef = myRef.child("orders").push();
@@ -88,6 +89,8 @@ public class CartViewActivity extends AppCompatActivity {
 
                 Intent resumeDelivery = new Intent(getApplicationContext(), ResumeDeliveryActivity.class);
                 startActivity(resumeDelivery);
+                 */
+                startActivity(new Intent(CartViewActivity.this, DeliveryInformationActivity.class));
             }
         });
 
