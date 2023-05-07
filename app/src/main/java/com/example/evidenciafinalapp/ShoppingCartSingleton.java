@@ -29,4 +29,8 @@ public class ShoppingCartSingleton {
     public void addValue(CartViewActivity.CartItem value){
         mArray.add(value);
     }
+
+    public void setEmptyCart() {
+        mArray.clear();
+    }
 }

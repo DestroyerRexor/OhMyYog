@@ -1,6 +1,0 @@
-<selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:bottom="@drawable/border_bottom" android:state_pressed="true"/>
-    <item android:bottom="@drawable/border_bottom" android:state_selected="true"/>
-    <item android:bottom="@android:color/transparent"/>
-</selector>
-

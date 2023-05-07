@@ -80,11 +80,11 @@ public class CartViewActivity extends AppCompatActivity {
             public void onClick(View view) {
                 FirebaseDatabase database = FirebaseDatabase.getInstance();
                 DatabaseReference myRef = database.getReference();
-                DatabaseReference ordersRef = myRef.child("orders");
+                DatabaseReference ordersRef = myRef.child("orders").push();
 
-                Map<String, List<CartItem>> order = new HashMap<>();
-                order.put(myRef.push().getKey(), cartItems);
-                ordersRef.setValue(order);
+                ordersRef.setValue(cartItems);
+
+                ShoppingCartSingleton.getInstance().setEmptyCart();
 
                 Intent resumeDelivery = new Intent(getApplicationContext(), ResumeDeliveryActivity.class);
                 startActivity(resumeDelivery);

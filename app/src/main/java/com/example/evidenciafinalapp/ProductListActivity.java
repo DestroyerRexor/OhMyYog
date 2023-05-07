@@ -105,8 +105,16 @@ public class ProductListActivity extends AppCompatActivity {
     }
 
     private void setUpList() {
-        gridView = (GridView) findViewById(R.id.grid);
-        ProductCard card = new ProductCard(getApplicationContext(), 0, productList);
+        // gridView = (GridView) findViewById(R.id.grid);
+
+        ArrayList<Product> filteredProducts = new ArrayList<Product>();
+
+        for (Product product: productList) {
+            if(product.getCategory().contains(selectedFilter)) {
+                filteredProducts.add(product);
+            }
+        }
+        ProductCard card = new ProductCard(getApplicationContext(), 0, filteredProducts);
         gridView.setAdapter(card);
     }
 
@@ -118,7 +126,6 @@ public class ProductListActivity extends AppCompatActivity {
                 Intent showDetail = new Intent(getApplicationContext(), ProductViewActivity.class);
                 showDetail.putExtra("id",selectedProduct.getId());
                 startActivity(showDetail);
-                System.out.println(selectedProduct.getId());
             }
         });
     }
@@ -190,6 +197,19 @@ public class ProductListActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 filterList(filter);
+                 // Establece el estado activado del botón actual
+                // Desactiva el estado en otros botones
+                Button filterIceCream = findViewById(R.id.filterIceCream);
+                filterIceCream.setActivated(false);
+                Button filterDrinks = findViewById(R.id.filterDrinks);
+                filterDrinks.setActivated(false);
+                Button filterLiters = findViewById(R.id.filterLiters);
+                filterLiters.setActivated(false);
+
+                button.setActivated(true);
+
+                // Establece el estilo del botón seleccionado
+                button.setBackgroundResource(R.drawable.button_bottom_border);
             }
         });
     }
