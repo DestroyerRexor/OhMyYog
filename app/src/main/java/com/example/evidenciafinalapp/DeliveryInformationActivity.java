@@ -9,9 +9,13 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TimePicker;
+
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.Calendar;
 import java.util.Locale;
@@ -24,14 +28,17 @@ public class DeliveryInformationActivity extends AppCompatActivity {
     AutoCompleteTextView autoCompleteTextView;
     ArrayAdapter<String> adapterItem;
 
+    private EditText datePickerEditText;
+    private EditText hourPickerEditText;
+
     String[] item = {"Av. Fundadores (Del Paseo)","Plaza OMNIA (El Uro)","Plaza Fórum Leones (Cumbres)"};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_delivery_information);
 
-        EditText datePickerEditText = findViewById(R.id.date_picker);
-        EditText hourPickerEditText = findViewById(R.id.hour_picker);
+        datePickerEditText = findViewById(R.id.date_picker);
+        hourPickerEditText = findViewById(R.id.hour_picker);
 
 
         autoCompleteTextView = findViewById(R.id.autoCompleteTextView);
@@ -39,6 +46,15 @@ public class DeliveryInformationActivity extends AppCompatActivity {
 
         autoCompleteTextView.setAdapter(adapterItem);
         autoCompleteTextView.setText(item[0].toString(), false);
+
+        Button endDeliveryButton = findViewById(R.id.endDeliveryButton);
+
+        endDeliveryButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getDeliveryInformation();
+            }
+        });
 
         autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override
@@ -120,4 +136,61 @@ public class DeliveryInformationActivity extends AppCompatActivity {
         });
 
     }
+
+
+    private DeliveryInformation getDeliveryInformation() {
+        TextInputLayout iNameClient = findViewById(R.id.iNameClient);
+        TextInputEditText nameClientText = (TextInputEditText) iNameClient.getEditText();
+        String nameClient = nameClientText.getText().toString();
+
+        TextInputLayout iPhoneClient = findViewById(R.id.iPhoneClient);
+        TextInputEditText phoneClientText = (TextInputEditText) iPhoneClient.getEditText();
+        String phone = phoneClientText.getText().toString();
+
+        TextInputLayout iEmailClient = findViewById(R.id.iEmailClient);
+        TextInputEditText emailClientText = (TextInputEditText) iEmailClient.getEditText();
+        String email = emailClientText.getText().toString();
+
+        String deliveryDate = String.valueOf(datePickerEditText.getText());
+
+        String deliveryBranch = String.valueOf(autoCompleteTextView.getText());
+
+        DeliveryInformation deliveryInformation = new DeliveryInformation(
+            nameClient,
+            phone,
+            email,
+            deliveryDate,
+            0,
+            0,
+            deliveryBranch
+        );
+
+        System.out.println(deliveryInformation.toString());
+
+        return deliveryInformation;
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
