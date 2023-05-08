@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">EvidenciaFinalApp</string>
+    <string name="quantity">Cantidad</string>
+    <string name="add_cart">Añadir al carrito</string>
+    <string name="description">Descripción</string>
+    <string name="lorem_Ipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum facilisis, velit a lacinia rutrum, ligula purus aliquet nisi, in imperdiet quam sem eu velit. Quisque finibus dolor quis eros vestibulum, ac viverra odio ultrices. Mauris aliquet tortor sem, in scelerisque tortor feugiat id. Praesent eu cursus lorem, et ultricies nisl. Curabitur id mi dapibus, congue metus ac, pharetra dui. Integer dui tellus, dignissim et odio vel, suscipit pulvinar quam.</string>
 </resources>
