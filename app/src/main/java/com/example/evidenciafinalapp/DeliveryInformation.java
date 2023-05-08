@@ -8,18 +8,16 @@ public class DeliveryInformation {
     private String phone;
     private String email;
     private String deliveryDate;
-    private int deliveryHour;
-    private int deliveryMinute;
+    private String deliveryHour;
     private String deliveryBranch;
 
     public DeliveryInformation(String name, String phone, String email, String deliveryDate,
-                               int deliveryHour, int deliveryMinute, String deliveryBranch) {
+                               String deliveryHour, String deliveryBranch) {
         this.name = name;
         this.phone = phone;
         this.email = email;
         this.deliveryDate = deliveryDate;
         this.deliveryHour = deliveryHour;
-        this.deliveryMinute = deliveryMinute;
         this.deliveryBranch = deliveryBranch;
     }
 
@@ -55,22 +53,13 @@ public class DeliveryInformation {
         this.deliveryDate = deliveryDate;
     }
 
-    public int getDeliveryHour() {
+    public String getDeliveryHour() {
         return deliveryHour;
     }
 
-    public void setDeliveryHour(int deliveryHour) {
+    public void setDeliveryHour(String deliveryHour) {
         this.deliveryHour = deliveryHour;
     }
-
-    public int getDeliveryMinute() {
-        return deliveryMinute;
-    }
-
-    public void setDeliveryMinute(int deliveryMinute) {
-        this.deliveryMinute = deliveryMinute;
-    }
-
     public String getDeliveryBranch() {
         return deliveryBranch;
     }
@@ -87,7 +76,6 @@ public class DeliveryInformation {
                 ", email='" + email + '\'' +
                 ", deliveryDate=" + deliveryDate +
                 ", deliveryHour=" + deliveryHour +
-                ", deliveryMinute=" + deliveryMinute +
                 ", deliveryBranch='" + deliveryBranch + '\'' +
                 '}';
     }

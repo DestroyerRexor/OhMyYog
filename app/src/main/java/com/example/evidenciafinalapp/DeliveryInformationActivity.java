@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -13,11 +14,15 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
 
 public class DeliveryInformationActivity extends AppCompatActivity {
@@ -30,6 +35,9 @@ public class DeliveryInformationActivity extends AppCompatActivity {
 
     private EditText datePickerEditText;
     private EditText hourPickerEditText;
+    private int dayOfWeek;
+
+    private List<CartViewActivity.CartItem> cartItems = ShoppingCartSingleton.getInstance().getArray();
 
     String[] item = {"Av. Fundadores (Del Paseo)","Plaza OMNIA (El Uro)","Plaza Fórum Leones (Cumbres)"};
     @Override
@@ -52,7 +60,21 @@ public class DeliveryInformationActivity extends AppCompatActivity {
         endDeliveryButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getDeliveryInformation();
+                DeliveryInformation deliveryInformation = getDeliveryInformation();
+
+                FirebaseDatabase database = FirebaseDatabase.getInstance();
+                DatabaseReference myRef = database.getReference();
+                DatabaseReference ordersRef = myRef.child("orders").push();
+
+                Order order = new Order(deliveryInformation, cartItems);
+
+                ordersRef.setValue(order);
+
+                ShoppingCartSingleton.getInstance().setEmptyCart();
+
+                Intent resumeDelivery = new Intent(getApplicationContext(), ResumeDeliveryActivity.class);
+                startActivity(resumeDelivery);
+
             }
         });
 
@@ -73,21 +95,7 @@ public class DeliveryInformationActivity extends AppCompatActivity {
                 // Obtener el día de la semana seleccionado
                 Calendar calendar = Calendar.getInstance();
                 calendar.set(year, monthOfYear, dayOfMonth);
-                int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
-
-                if (dayOfWeek >= Calendar.MONDAY && dayOfWeek <= Calendar.FRIDAY) {
-                    // Lunes a viernes: de 13:30 a 21:00
-                    minHour = 13;
-                    minMinute = 30;
-                    maxHour = 21;
-                    maxMinute = 0;
-                } else {
-                    // Sábado o domingo: de 14:30 a 21:00
-                    minHour = 14;
-                    minMinute = 30;
-                    maxHour = 21;
-                    maxMinute = 0;
-                }
+                dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
             }
         };
 
@@ -108,7 +116,35 @@ public class DeliveryInformationActivity extends AppCompatActivity {
             @Override
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                 String selectedTime = String.format(Locale.getDefault(), "%02d:%02d", hourOfDay, minute);
-                hourPickerEditText.setText(selectedTime);
+
+                Calendar tempDate = Calendar.getInstance();
+                tempDate.set(Calendar.HOUR_OF_DAY,hourOfDay);
+                tempDate.set(Calendar.MINUTE,minute);
+
+                minHour = dayOfWeek >= Calendar.MONDAY && dayOfWeek <= Calendar.FRIDAY ? 13 : 14;
+                minMinute = 30;
+                maxHour = 21;
+                maxMinute = 0;
+
+                //Hora minima
+                Calendar dateTimeMin=Calendar.getInstance();
+                dateTimeMin.set(Calendar.HOUR_OF_DAY,minHour);
+                dateTimeMin.set(Calendar.MINUTE,minMinute);
+
+                //Hora maxima
+                Calendar dateTimeMax=Calendar.getInstance();
+                dateTimeMax.set(Calendar.HOUR_OF_DAY,maxHour);
+                dateTimeMax.set(Calendar.MINUTE,maxMinute);
+
+                //*Valida si la hora seleccionada es permitida.
+                if(tempDate.after(dateTimeMin) && tempDate.before(dateTimeMax)){
+                    Calendar datetime=Calendar.getInstance();
+                    datetime.set(Calendar.HOUR_OF_DAY,hourOfDay);
+                    datetime.set(Calendar.MINUTE,minute);
+                    hourPickerEditText.setText(selectedTime);
+                } else {
+                    Toast.makeText(getApplicationContext(), "Hora no permitida! ", Toast.LENGTH_SHORT).show();
+                }
             }
         };
         hourPickerEditText.setOnClickListener(new View.OnClickListener() {
@@ -137,7 +173,6 @@ public class DeliveryInformationActivity extends AppCompatActivity {
 
     }
 
-
     private DeliveryInformation getDeliveryInformation() {
         TextInputLayout iNameClient = findViewById(R.id.iNameClient);
         TextInputEditText nameClientText = (TextInputEditText) iNameClient.getEditText();
@@ -155,17 +190,16 @@ public class DeliveryInformationActivity extends AppCompatActivity {
 
         String deliveryBranch = String.valueOf(autoCompleteTextView.getText());
 
+        String deliveryHour = String.valueOf(hourPickerEditText.getText());
+
         DeliveryInformation deliveryInformation = new DeliveryInformation(
             nameClient,
             phone,
             email,
             deliveryDate,
-            0,
-            0,
+            deliveryHour,
             deliveryBranch
         );
-
-        System.out.println(deliveryInformation.toString());
 
         return deliveryInformation;
     }
