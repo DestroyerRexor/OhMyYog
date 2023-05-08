@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -14,40 +13,34 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/toolbar">
+
         <LinearLayout
             android:id="@+id/buttonsLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
-            android:orientation="horizontal">
-            <Button
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:id="@+id/filterIceCream"
-                android:onClick="onFilterIceCream"
-                android:text="Helados"
-                style="@style/FilterButtonStyle"
-                android:background="@android:color/transparent"
-                />
-            <Button
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:id="@+id/filterLiters"
-                android:onClick="onFilterLiters"
-                android:text="Litros"
-                style="@style/FilterButtonStyle"
-                android:background="@android:color/transparent"/>
-            <Button
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:id="@+id/filterDrinks"
-                android:onClick="onFiltersDrinks"
-                android:text="Drinks"
-                style="@style/FilterButtonStyle"
-                android:background="@android:color/transparent"/>
+            android:orientation="vertical">
+
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tabLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <com.google.android.material.tabs.TabItem
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Helados" />
+
+                <com.google.android.material.tabs.TabItem
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Litros" />
+
+                <com.google.android.material.tabs.TabItem
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Drinks" />
+            </com.google.android.material.tabs.TabLayout>
         </LinearLayout>
 
         <SearchView
@@ -55,7 +48,10 @@
             android:layout_marginTop="16dp"
             android:layout_below="@+id/buttonsLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/search_input_bg">
         </SearchView>
 
         <GridView
@@ -69,7 +65,4 @@
             android:verticalSpacing="16dp"/>
 
     </RelativeLayout>
-
-
-
 </RelativeLayout>

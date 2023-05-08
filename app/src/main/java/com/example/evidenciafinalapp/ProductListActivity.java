@@ -18,6 +18,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.material.tabs.TabLayout;
+
 import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.Toast;
@@ -65,11 +67,38 @@ public class ProductListActivity extends AppCompatActivity {
         setUpOnClickListener();
         initSearchProducts();
 
-        onFilterIceCream();
-        onFilterDrinks();
-        onFilterLiters();
+        TabLayout tabLayout = findViewById(R.id.tabLayout);
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
 
+                int position = tab.getPosition();
 
+                switch (position) {
+                    case 0: {
+                        filterList("Helados");
+                    } break;
+
+                    case 1: {
+                        filterList("Litros");
+                    } break;
+
+                    case 2: {
+                        filterList("Drinks");
+                    }break;
+                }
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
     }
 
     private class FetchDataTask extends AsyncTask<Void, Void, Void> {
@@ -116,8 +145,6 @@ public class ProductListActivity extends AppCompatActivity {
     }
 
     private void setUpList() {
-        // gridView = (GridView) findViewById(R.id.grid);
-
         ArrayList<Product> filteredProducts = new ArrayList<Product>();
 
         for (Product product: productList) {
@@ -187,42 +214,4 @@ public class ProductListActivity extends AppCompatActivity {
 
         gridView.setAdapter(card);
     }
-
-    private void onFilterIceCream() {
-        Button filterIceCream = findViewById(R.id.filterIceCream);
-        setOnClickListener(filterIceCream, "Helados");
-    }
-
-    private void onFilterDrinks() {
-        Button filterDrinks = findViewById(R.id.filterDrinks);
-        setOnClickListener(filterDrinks, "Drinks");
-    }
-
-    private void onFilterLiters() {
-        Button filterLiters = findViewById(R.id.filterLiters);
-        setOnClickListener(filterLiters, "Liters");
-    }
-
-    private void setOnClickListener(Button button, String filter) {
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                filterList(filter);
-                 // Establece el estado activado del botón actual
-                // Desactiva el estado en otros botones
-                Button filterIceCream = findViewById(R.id.filterIceCream);
-                filterIceCream.setActivated(false);
-                Button filterDrinks = findViewById(R.id.filterDrinks);
-                filterDrinks.setActivated(false);
-                Button filterLiters = findViewById(R.id.filterLiters);
-                filterLiters.setActivated(false);
-
-                button.setActivated(true);
-
-                // Establece el estilo del botón seleccionado
-                button.setBackgroundResource(R.drawable.button_bottom_border);
-            }
-        });
-    }
-
 }
