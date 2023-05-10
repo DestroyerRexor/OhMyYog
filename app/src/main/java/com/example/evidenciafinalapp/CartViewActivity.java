@@ -10,6 +10,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import java.util.List;
 
 public class CartViewActivity extends AppCompatActivity {
@@ -71,19 +73,12 @@ public class CartViewActivity extends AppCompatActivity {
         finishOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*
-                FirebaseDatabase database = FirebaseDatabase.getInstance();
-                DatabaseReference myRef = database.getReference();
-                DatabaseReference ordersRef = myRef.child("orders").push();
 
-                ordersRef.setValue(cartItems);
-
-                ShoppingCartSingleton.getInstance().setEmptyCart();
-
-                Intent resumeDelivery = new Intent(getApplicationContext(), ResumeDeliveryActivity.class);
-                startActivity(resumeDelivery);
-                 */
-                startActivity(new Intent(CartViewActivity.this, DeliveryInformationActivity.class));
+                if (cartItems.isEmpty()) {
+                    Toast.makeText(getApplicationContext(), "Agrega un producto a tu carrito antes", Toast.LENGTH_SHORT).show();
+                } else {
+                    startActivity(new Intent(CartViewActivity.this, DeliveryInformationActivity.class));
+                }
             }
         });
 

@@ -13,6 +13,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -27,31 +28,60 @@ import java.util.Locale;
 
 public class DeliveryInformationActivity extends AppCompatActivity {
 
+    // Información de contacto
+
+    private TextInputLayout iNameClient;
+    private TextInputEditText nameClientText;
+
+    private TextInputLayout iPhoneClient;
+    private TextInputEditText phoneClientText;
+
+    private TextInputLayout iEmailClient;
+    private TextInputEditText emailClientText;
+
+    // Información de entrega
+
+    private EditText datePickerEditText;
+    private int dayOfWeek;
+
+    private EditText hourPickerEditText;
     // Validar el horario según el día de la semana
     int minHour, minMinute, maxHour, maxMinute;
 
+    // Sucursal
     AutoCompleteTextView autoCompleteTextView;
     ArrayAdapter<String> adapterItem;
-
-    private EditText datePickerEditText;
-    private EditText hourPickerEditText;
-    private int dayOfWeek;
-
     private List<CartViewActivity.CartItem> cartItems = ShoppingCartSingleton.getInstance().getArray();
-
     String[] item = {"Av. Fundadores (Del Paseo)","Plaza OMNIA (El Uro)","Plaza Fórum Leones (Cumbres)"};
+
+    private ImageView cartImageView;
+    private ImageView returnArrowImageView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_delivery_information);
 
-        datePickerEditText = findViewById(R.id.date_picker);
-        hourPickerEditText = findViewById(R.id.hour_picker);
+        cartImageView = findViewById(R.id.cartImageView);
+        cartImageView.setImageAlpha(0);
 
+        returnArrowImageView = findViewById(R.id.returnArrowImageView);
+
+
+        iNameClient = findViewById(R.id.iNameClient);
+        nameClientText = (TextInputEditText) iNameClient.getEditText();
+
+        iPhoneClient = findViewById(R.id.iPhoneClient);
+        phoneClientText = (TextInputEditText) iPhoneClient.getEditText();
+
+        iEmailClient = findViewById(R.id.iEmailClient);
+        emailClientText = (TextInputEditText) iEmailClient.getEditText();
+
+        datePickerEditText = findViewById(R.id.date_picker);
+
+        hourPickerEditText = findViewById(R.id.hour_picker);
 
         autoCompleteTextView = findViewById(R.id.autoCompleteTextView);
         adapterItem = new ArrayAdapter<String>(this, R.layout.list_item, item);
-
         autoCompleteTextView.setAdapter(adapterItem);
         autoCompleteTextView.setText(item[0].toString(), false);
 
@@ -60,21 +90,25 @@ public class DeliveryInformationActivity extends AppCompatActivity {
         endDeliveryButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DeliveryInformation deliveryInformation = getDeliveryInformation();
 
-                FirebaseDatabase database = FirebaseDatabase.getInstance();
-                DatabaseReference myRef = database.getReference();
-                DatabaseReference ordersRef = myRef.child("orders").push();
+                if (validateInputData()) {
+                    DeliveryInformation deliveryInformation = getDeliveryInformation();
 
-                Order order = new Order(deliveryInformation, cartItems);
+                    FirebaseDatabase database = FirebaseDatabase.getInstance();
+                    DatabaseReference myRef = database.getReference();
+                    DatabaseReference ordersRef = myRef.child("orders").push();
 
-                ordersRef.setValue(order);
+                    Order order = new Order(deliveryInformation, cartItems);
 
-                ShoppingCartSingleton.getInstance().setEmptyCart();
+                    ordersRef.setValue(order);
 
-                Intent resumeDelivery = new Intent(getApplicationContext(), ResumeDeliveryActivity.class);
-                startActivity(resumeDelivery);
+                    ShoppingCartSingleton.getInstance().setEmptyCart();
 
+                    Intent resumeDelivery = new Intent(getApplicationContext(), ResumeDeliveryActivity.class);
+                    startActivity(resumeDelivery);
+                } else {
+                    Toast.makeText(getApplicationContext(), "Se deben rellenar todos los campos antes de enviar el formulario", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -143,7 +177,7 @@ public class DeliveryInformationActivity extends AppCompatActivity {
                     datetime.set(Calendar.MINUTE,minute);
                     hourPickerEditText.setText(selectedTime);
                 } else {
-                    Toast.makeText(getApplicationContext(), "Hora no permitida! ", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Hora no permitida", Toast.LENGTH_SHORT).show();
                 }
             }
         };
@@ -153,20 +187,7 @@ public class DeliveryInformationActivity extends AppCompatActivity {
                 Calendar calendar = Calendar.getInstance();
                 int hour = calendar.get(Calendar.HOUR_OF_DAY);
                 int minute = calendar.get(Calendar.MINUTE);
-
                 TimePickerDialog timePickerDialog = new TimePickerDialog(DeliveryInformationActivity.this, timeSetListener, hour, minute, false);
-
-                // TODO: Agregar validación de horas
-                // Establece la hora mínima como 13:30
-                // timePickerDialog.show();
-
-                // Crear el TimePickerDialog con el rango de horas correspondiente
-                // TimePickerDialog timePickerDialog = new TimePickerDialog(DeliveryInformationActivity.this, timeSetListener, hour, minute, false);
-                // timePickerDialog.setRange(minHour, minMinute, maxHour, maxMinute);
-
-                //TimePickerDialog timePickerDialog = new TimePickerDialog(DeliveryInformationActivity.this, timeSetListener, hour, minute, false);
-                // timePickerDialog.setOnTimeChangedListener(timeChangedListener);
-
                 timePickerDialog.show();
             }
         });
@@ -174,16 +195,11 @@ public class DeliveryInformationActivity extends AppCompatActivity {
     }
 
     private DeliveryInformation getDeliveryInformation() {
-        TextInputLayout iNameClient = findViewById(R.id.iNameClient);
-        TextInputEditText nameClientText = (TextInputEditText) iNameClient.getEditText();
+
         String nameClient = nameClientText.getText().toString();
 
-        TextInputLayout iPhoneClient = findViewById(R.id.iPhoneClient);
-        TextInputEditText phoneClientText = (TextInputEditText) iPhoneClient.getEditText();
         String phone = phoneClientText.getText().toString();
 
-        TextInputLayout iEmailClient = findViewById(R.id.iEmailClient);
-        TextInputEditText emailClientText = (TextInputEditText) iEmailClient.getEditText();
         String email = emailClientText.getText().toString();
 
         String deliveryDate = String.valueOf(datePickerEditText.getText());
@@ -193,15 +209,51 @@ public class DeliveryInformationActivity extends AppCompatActivity {
         String deliveryHour = String.valueOf(hourPickerEditText.getText());
 
         DeliveryInformation deliveryInformation = new DeliveryInformation(
-            nameClient,
-            phone,
-            email,
-            deliveryDate,
-            deliveryHour,
-            deliveryBranch
+                nameClient,
+                phone,
+                email,
+                deliveryDate,
+                deliveryHour,
+                deliveryBranch
         );
 
         return deliveryInformation;
+    }
+
+    private boolean validateInputData() {
+        boolean isValid = true;
+
+        if(nameClientText.getText().toString().trim().isEmpty()) {
+            nameClientText.setError("El campo del nombre debe ser completado");
+            isValid = false;
+        }
+
+        if(emailClientText.getText().toString().trim().isEmpty()) {
+            emailClientText.setError("El campo del correo debe ser completado");
+            isValid = false;
+        }
+
+        if(phoneClientText.getText().toString().trim().isEmpty()) {
+            phoneClientText.setError("El campo del celular debe ser completado");
+            isValid = false;
+        }
+
+        if(datePickerEditText.getText().toString().isEmpty()) {
+            datePickerEditText.setError("Se debe seleccionar una fecha de recolección");
+            isValid = false;
+        }
+
+        if(hourPickerEditText.getText().toString().isEmpty()) {
+            hourPickerEditText.setError("Se debe seleccionar un horario de recolección");
+            isValid = false;
+        }
+
+        if(autoCompleteTextView.getText().toString().isEmpty()) {
+            autoCompleteTextView.setError("Se debe seleccionar una sucursal");
+            isValid = false;
+        }
+
+        return isValid;
     }
 }
 
