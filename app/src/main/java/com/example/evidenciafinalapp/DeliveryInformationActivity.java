@@ -65,6 +65,12 @@ public class DeliveryInformationActivity extends AppCompatActivity {
         cartImageView.setImageAlpha(0);
 
         returnArrowImageView = findViewById(R.id.returnArrowImageView);
+        returnArrowImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
 
 
         iNameClient = findViewById(R.id.iNameClient);
